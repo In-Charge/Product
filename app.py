@@ -5,11 +5,12 @@ from secrets import token_hex
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///host.db'
+app.config['SQLALCHEMY_BINDS'] = {'fetched': 'sqlite:///user.db'}
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 
-class Data(db.Model):
+class HostData(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.String(200), nullable=False)
     date_created = db.Column(db.DateTime, default=datetime.utcnow)
@@ -19,11 +20,21 @@ class Data(db.Model):
         return '<Entry %r>' % self.id
 
 
+class FetchedData(db.Model):
+    __bind_key__ = 'fetched'
+    id = db.Column(db.Integer, primary_key=True)
+    content = db.Column(db.String(200), nullable=False)
+    date_fetched = db.Column(db.DateTime, default=datetime.utcnow)
+
+    def __repr__(self):
+        return '<Entry %r>' % self.id
+
+
 @app.route('/', methods=['POST', 'GET'])
 def index():
     if request.method == 'POST':
         content = request.form['content']
-        new_item = Data(content=content, access_token=token_hex(16))
+        new_item = HostData(content=content, access_token=token_hex(16))
 
         db.session.add(new_item)
         db.session.commit()
@@ -31,13 +42,13 @@ def index():
 
 
     else:
-        items = Data.query.order_by(Data.date_created).all()
+        items = HostData.query.order_by(HostData.date_created).all()
         return render_template('index.html', items=items)
 
 
 @app.route('/delete/<int:id>')
 def delete(id):
-    items_to_delete = Data.query.get_or_404(id)
+    items_to_delete = HostData.query.get_or_404(id)
 
     try:
         db.session.delete(items_to_delete)
@@ -49,7 +60,7 @@ def delete(id):
 
 @app.route('/update/<int:id>', methods=['GET', 'POST'])
 def update(id):
-    item = Data.query.get_or_404(id)
+    item = HostData.query.get_or_404(id)
 
     if request.method == 'POST':
         item.content = request.form['content']
