@@ -64,10 +64,5 @@ def update(id):
         return render_template('update.html', item=item)
 
 
-# @app.route('/fetch/<int:id>', methods=['GET', 'POST'])
-# def fetch(id, access_token):
-
-
-
 if __name__ == '__main__':
     app.run()

@@ -23,16 +23,20 @@ class FetchedData(db.Model):
         return '<Entry %r>' % self.id
 
 
+@app.route('/')
+def user_db():
+    items = FetchedData.query.order_by(FetchedData.date_fetched).all()
+    return render_template("user_db.html", items=items)
+
+
 @app.route('/fetch', methods=['GET', 'POST'])
 def fetch():
     if request.method == 'POST':
         id = request.form['id']
         access_token = request.form['access_token']
         query = host_engine.execute(
-            # 'SELECT id, content FROM host_data')
             f'SELECT id, content FROM host_data WHERE id={id} AND access_token=\'{access_token}\'')
         print(query)
-        # print(query.fetchall())
         result = query.fetchone()
         print(result)
         wrong = result is None
