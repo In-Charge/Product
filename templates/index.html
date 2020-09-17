@@ -1,23 +1,25 @@
 {% extends 'base.html' %}
 
 {% block head %}
-    <title>Demo</title>
+    <title>Host Database</title>
 {% endblock %}
 
 {% block body %}
     <div class="content">
-        <h1 style="text-align: center">Demo</h1>
+        <h1 style="text-align: center">Host Database</h1>
         {% if items|length < 1 %}
             <h4 style="text-align: center">There are no entries, please create one.</h4>
         {% else %}
             <table>
                 <tr>
+                    <th>Id</th>
                     <th>Content</th>
                     <th>Time added</th>
                     <th>Actions</th>
                 </tr>
                 {% for item in items %}
                     <tr>
+                        <td>{{ item.id }}</td>
                         <td>{{ item.content }}</td>
                         <td>{{ item.date_created.strftime('%Y-%m-%d %H:%M:%S') }}</td>
                         <td>

@@ -5,7 +5,6 @@ from secrets import token_hex
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///host.db'
-app.config['SQLALCHEMY_BINDS'] = {'fetched': 'sqlite:///user.db'}
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
@@ -20,17 +19,7 @@ class HostData(db.Model):
         return '<Entry %r>' % self.id
 
 
-class FetchedData(db.Model):
-    __bind_key__ = 'fetched'
-    id = db.Column(db.Integer, primary_key=True)
-    content = db.Column(db.String(200), nullable=False)
-    date_fetched = db.Column(db.DateTime, default=datetime.utcnow)
-
-    def __repr__(self):
-        return '<Entry %r>' % self.id
-
-
-@app.route('/', methods=['POST', 'GET'])
+@app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
         content = request.form['content']
@@ -73,6 +62,11 @@ def update(id):
 
     else:
         return render_template('update.html', item=item)
+
+
+# @app.route('/fetch/<int:id>', methods=['GET', 'POST'])
+# def fetch(id, access_token):
+
 
 
 if __name__ == '__main__':

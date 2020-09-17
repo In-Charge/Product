@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    <title>Fetch form Host</title>
+{% endblock %}
+
+{% block body %}
+    <div class="content">
+        <h1 style="text-align: center">Fetch from Host</h1>
+
+        <div class="form">
+            <form action="/fetch" onsubmit="message()" method="POST">
+                <label for="id">Id</label><input type="text" name="id" id="id">
+                <label for="access_token">Access token</label><input type="text" name="access_token" id="access_token">
+                <input type="submit" value="Fetch form Host">
+            </form>
+        </div>
+    </div>
+    <script>
+        function message() {
+            if ({{ wrong }}) {
+                alert('Wrong id or access token! Please try again.')
+            }
+        }
+    </script>
+{% endblock %}
