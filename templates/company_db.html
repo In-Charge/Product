@@ -1,27 +1,27 @@
 {% extends 'base.html' %}
 
 {% block head %}
-    <title>User Database</title>
+    <title>Company Database</title>
 {% endblock %}
 
 {% block body %}
     <div class="content">
-        <h1 style="text-align: center">User Database</h1>
+        <h1 style="text-align: center">Company Database</h1>
         {% if items|length < 1 %}
-            <h4 style="text-align: center">There are no entries, please fetch some from the host database using the item
+            <h4 style="text-align: center">There are no entries, please fetch some from the individual database using the item
                 id and access token.</h4>
         {% else %}
             <table>
                 <tr>
                     <th>Id</th>
-                    <th>Host id</th>
+                    <th>Individual id</th>
                     <th>Content</th>
                     <th>Time fetched</th>
                 </tr>
                 {% for item in items %}
                     <tr>
                         <td>{{ item.id }}</td>
-                        <td>{{ item.host_id }}</td>
+                        <td>{{ item.individual_id }}</td>
                         <td>{{ item.content }}</td>
                         <td>{{ item.date_fetched.strftime('%Y-%m-%d %H:%M:%S') }}</td>
                     </tr>
@@ -29,6 +29,6 @@
             </table>
         {% endif %}
         <br>
-        <a href="/fetch">Fetch items from Host</a>
+        <a href="/fetch">Fetch items from the Individual database</a>
     </div>
 {% endblock %}

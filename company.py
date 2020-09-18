@@ -5,17 +5,16 @@ from sqlalchemy import create_engine
 
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///user.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///company.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
-host_engine = create_engine('sqlite:///host.db')
+individual_engine = create_engine('sqlite:///individual.db')
 
 
 class FetchedData(db.Model):
-    # __bind_key__ = 'fetched'
     id = db.Column(db.Integer, primary_key=True)
-    host_id = db.Column(db.Integer, nullable=False)
+    individual_id = db.Column(db.Integer, nullable=False)
     content = db.Column(db.String(200), nullable=False)
     date_fetched = db.Column(db.DateTime, default=datetime.utcnow)
 
@@ -24,9 +23,9 @@ class FetchedData(db.Model):
 
 
 @app.route('/')
-def user_db():
+def company_db():
     items = FetchedData.query.order_by(FetchedData.date_fetched).all()
-    return render_template("user_db.html", items=items)
+    return render_template("company_db.html", items=items)
 
 
 @app.route('/fetch', methods=['GET', 'POST'])
@@ -34,19 +33,18 @@ def fetch():
     if request.method == 'POST':
         id = request.form['id']
         access_token = request.form['access_token']
-        query = host_engine.execute(
-            f'SELECT id, content FROM host_data WHERE id={id} AND access_token=\'{access_token}\'')
+        query = individual_engine.execute(
+            f'SELECT id, content FROM personal_data WHERE id={id} AND access_token=\'{access_token}\'')
         print(query)
         result = query.fetchone()
         print(result)
         wrong = result is None
 
         if wrong:
-            print('yoo')
             return render_template('fetch.html', wrong=True)
         else:
             content = result[1]
-            new_item = FetchedData(host_id=id, content=content)
+            new_item = FetchedData(individual_id=id, content=content)
             db.session.add(new_item)
             db.session.commit()
             return render_template('fetch.html', wrong=False)
