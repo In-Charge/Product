@@ -3,40 +3,57 @@
 {% block head %}
     <title>Individual Database</title>
 {% endblock %}
-
+{% block title1 %}{% endblock %}
+{% block title2 %}{% endblock %}
 {% block body %}
     <div class="content">
-        <h1 style="text-align: center">Individual Database</h1>
+        <h1 class="mt-4" style="text-align: center">Individual Database</h1>
         {% if items|length < 1 %}
             <h4 style="text-align: center">There are no entries, please create one.</h4>
         {% else %}
-            <table>
-                <tr>
-                    <th>Id</th>
-                    <th>Content</th>
-                    <th>Time added</th>
-                    <th>Actions</th>
-                </tr>
-                {% for item in items %}
-                    <tr>
-                        <td>{{ item.id }}</td>
-                        <td>{{ item.content }}</td>
-                        <td>{{ item.date_created.strftime('%Y-%m-%d %H:%M:%S') }}</td>
-                        <td>
-                            <a href="/delete/{{ item.id }}">Delete</a>
-                            <br>
-                            <a href="/update/{{ item.id }}">Update</a>
-                        </td>
-                    </tr>
-                {% endfor %}
-            </table>
+            <div class="row justify-content-center">
+                <div class="col-auto">
+                    <table class="table table-responsive table-dark">
+                        <thead>
+                        <tr>
+                            <th scope="col">Id</th>
+                            <th scope="col">Content</th>
+                            <th scope="col">Time added</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for item in items %}
+                            <tr>
+                                <td>{{ item.id }}</td>
+                                <td>{{ item.content }}</td>
+                                <td>{{ item.date_created.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                                <td>
+                                    <a class="btn btn-outline-secondary btn-sm" href="/delete/{{ item.id }}">Delete</a>
+
+                                    <a class="btn btn-outline-secondary btn-sm" href="/update/{{ item.id }}">Update</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         {% endif %}
 
-        <div class="form">
-            <form action="/" method="POST">
-                <input type="text" name="content" id="content">
-                <input type="submit" value="Add Entry">
-            </form>
-        </div>
+
+        <form action="/" method="POST">
+            <div class="form-group" style="width: 50%; margin: auto; align-content: center; text-align: center">
+                <div class="row justify-content-center">
+                    <div class="col-md-auto">
+                        <input type="text" class="form-control" name="content" id="content">
+                    </div>
+                    <div class="col-md-auto">
+                        <input type="submit" class="btn btn-primary" value="Add Entry">
+                    </div>
+                </div>
+            </div>
+        </form>
+
     </div>
 {% endblock %}

@@ -6,22 +6,20 @@
 
 {% block body %}
     <div class="content">
-        <h1 style="text-align: center">Fetch from Individual</h1>
+        <h1 class="mt-4" style="text-align: center">Fetch from Individual</h1>
 
         <div class="form">
             <form action="/fetch" method="POST">
-                <label for="id">Id</label><br>
-                <input type="text" name="id" id="id" size="5"><br><br>
-                <label for="access_token">Access token</label><br>
-                <input type="text" name="access_token" id="access_token" size="32">
-                <br>
-                <input type="submit" value="Fetch!">
+                <div class="form-group" style="width: 50%; margin: auto">
+                    <label for="id">Id</label>
+                    <input type="text" class="form-control" name="id" id="id" size="5"><br><br>
+                    <label for="access_token">Access token</label>
+                    <input type="text" class="form-control" name="access_token" id="access_token" size="32">
+                    <br>
+                    <input type="submit" class="btn btn-primary" value="Fetch!">
+                </div>
             </form>
         </div>
-        <br><br>
-        <form action="/">
-            <input type="submit" value="View Company database">
-        </form>
     </div>
 
     <script type="text/javascript">

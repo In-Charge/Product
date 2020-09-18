@@ -1,0 +1,14 @@
+.table td {
+    text-align: center;
+}
+
+.table th {
+    text-align: center;
+}
+
+.img-responsive {
+    height: auto;
+    width: auto;
+    max-height: 72px;
+    max-width: 250px;
+}
