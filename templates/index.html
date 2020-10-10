@@ -3,8 +3,6 @@
 {% block head %}
     <title>Individual Database</title>
 {% endblock %}
-{% block title1 %}{% endblock %}
-{% block title2 %}{% endblock %}
 {% block body %}
     <div class="content">
         <h1 class="mt-4" style="text-align: center">Individual Database</h1>
@@ -19,6 +17,7 @@
                             <th scope="col">Id</th>
                             <th scope="col">Content</th>
                             <th scope="col">Time added</th>
+                            <th scope="col">Access token*</th>
                             <th scope="col">Actions</th>
                         </tr>
                         </thead>
@@ -28,6 +27,7 @@
                                 <td>{{ item.id }}</td>
                                 <td>{{ item.content }}</td>
                                 <td>{{ item.date_created.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                                <td>{{ item.access_token }}</td>
                                 <td>
                                     <a class="btn btn-outline-secondary btn-sm" href="/delete/{{ item.id }}">Delete</a>
 
@@ -54,6 +54,10 @@
                 </div>
             </div>
         </form>
+    <br>
+
+    <h6 class="mt-4" style="text-align: center">*Access token will be deleted from the view and available only upon request for authorised entities.</h6>
+
 
     </div>
 {% endblock %}
