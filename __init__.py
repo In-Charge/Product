@@ -2,7 +2,6 @@ from flask import Flask, render_template, url_for, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 from secrets import token_hex
-from sqlalchemy import create_engine
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///individual.db'
@@ -10,8 +9,6 @@ app.config['SQLALCHEMY_BINDS'] = {'company': 'sqlite:///company.db'}
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
-
-individual_engine = create_engine('sqlite:///individual.db')
 
 
 class PersonalData(db.Model):
@@ -89,17 +86,14 @@ def fetch():
     if request.method == 'POST':
         id = request.form['id']
         access_token = request.form['access_token']
-        query = individual_engine.execute(
-            f"SELECT id, content FROM personal_data WHERE id={id} AND access_token='{access_token}'")
-        print(query)
-        result = query.fetchone()
-        print(result)
+        query = PersonalData.query.filter_by(id=id).filter_by(access_token=access_token)
+        result = query.first()
         wrong = result is None
 
         if wrong:
             return render_template('fetch.html', wrong=True)
         else:
-            content = result[1]
+            content = result.content
             new_item = FetchedData(individual_id=id, content=content)
             db.session.add(new_item)
             db.session.commit()
