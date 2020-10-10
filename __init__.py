@@ -90,7 +90,7 @@ def fetch():
         id = request.form['id']
         access_token = request.form['access_token']
         query = individual_engine.execute(
-            f'SELECT id, content FROM personal_data WHERE id={id} AND access_token=\'{access_token}\'')
+            f"SELECT id, content FROM personal_data WHERE id={id} AND access_token='{access_token}'")
         print(query)
         result = query.fetchone()
         print(result)
