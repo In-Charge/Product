@@ -1,7 +1,8 @@
-from flask import Flask, render_template, url_for, request, redirect
-from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 from secrets import token_hex
+
+from flask import Flask, render_template, request, redirect
+from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///individual.db'
@@ -55,12 +56,35 @@ def index():
         return render_template('index.html', items=items)
 
 
-@app.route('/delete/<int:id>')
-def delete(id):
-    items_to_delete = PersonalData.query.get_or_404(id)
+@app.route('/reset/<int:id>', methods=['GET', 'POST'])
+def reset(id):
+    item_ind = PersonalData.query.get_or_404(id)
+    item_comp = FetchedData.query.filter_by(individual_id=item_ind.id).first()
+    exists = item_comp is not None
+
+    item_ind.access_token = token_hex(16)
+
 
     try:
-        db.session.delete(items_to_delete)
+        if exists:
+            db.session.delete(item_comp)
+        db.session.commit()
+        return redirect('/')
+    except:
+        return 'There was a problem resetting the Access Token'
+
+
+@app.route('/delete/<int:id>')
+def delete(id):
+    item = PersonalData.query.get_or_404(id)
+
+    item_comp = FetchedData.query.filter_by(individual_id=item.id).first()
+    exists = item_comp is not None
+
+    try:
+        if exists:
+            db.session.delete(item_comp)
+        db.session.delete(item)
         db.session.commit()
         return redirect('/')
     except:
@@ -76,6 +100,7 @@ def update(id):
         item.email = request.form['email']
         item.phone = request.form['phone']
         item.blood = request.form['blood']
+        item.access_token = token_hex(16)
 
         try:
             db.session.commit()
