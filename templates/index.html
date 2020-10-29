@@ -16,11 +16,11 @@
                         <tr>
                             <th scope="col">Id</th>
                             <th scope="col">Name</th>
-                            <th scope="col">Email</th>
-                            <th scope="col">Phone number</th>
-                            <th scope="col">Blood type</th>
-                            <th scope="col">Time added</th>
-                            <th scope="col">Access token*</th>
+                            <th scope="col">Email Address</th>
+                            <th scope="col">Phone Number</th>
+                            <th scope="col">Blood Type</th>
+                            <th scope="col">Time Added</th>
+                            <th scope="col">Access Token*</th>
                             <th scope="col">Actions</th>
                         </tr>
                         </thead>
@@ -51,21 +51,25 @@
         <form action="/" method="POST">
             <div class="form-group" style="width: 50%; margin: auto; align-content: center; text-align: center">
                 <div class="row justify-content-center">
-                    <div class="col-md-auto">
-                        asdas
-                        <input type="text" class="form-control" name="name" id="name">
-                        <input type="text" class="form-control" name="email" id="email">
-                        <input type="text" class="form-control" name="phone" id="phone">
-                        <input type="text" class="form-control" name="blood" id="blood">
-                        <br>
-                        <input type="submit" class="btn btn-primary" value="Add Entry">
-                    </div>
+                    <input type="text" class="form-control" name="name" id="name" placeholder="Name"
+                           style="text-align: center">
+                    <input type="text" class="form-control" name="email" id="email" placeholder="Email Address"
+                           style="text-align: center">
+                    <input type="text" class="form-control" name="phone" id="phone" placeholder="Phone Number"
+                           style="text-align: center">
+                    <input type="text" class="form-control" name="blood" id="blood" placeholder="Blood Type"
+                           style="text-align: center">
                 </div>
+                <br>
+                <input type="submit" class="btn btn-primary" value="Add Entry">
             </div>
-        </form>
+    </div>
+    </div>
+    </form>
     <br>
 
-    <h6 class="mt-4" style="text-align: center">*Access token will be deleted from the view and available only upon request for authorised entities.</h6>
+    <h6 class="mt-4" style="text-align: center">*Access Token will be deleted from the view and available only upon
+        request for authorised entities.</h6>
 
 
     </div>

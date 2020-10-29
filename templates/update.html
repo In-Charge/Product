@@ -18,10 +18,14 @@
             <div class="form-group" style="width: 50%; margin: auto; align-content: center; text-align: center">
                 <div class="row justify-content-center">
                     <div class="col-md-auto">
-                        <input type="text" class="form-control" name="name" id="content" value="{{ item.name }}">
-                        <input type="text" class="form-control" name="email" id="content" value="{{ item.email }}">
-                        <input type="text" class="form-control" name="phone" id="content" value="{{ item.phone }}">
-                        <input type="text" class="form-control" name="blood" id="content" value="{{ item.blood }}">
+                        <input type="text" class="form-control" name="name" id="name" placeholder="Name"
+                               style="text-align: center" value="{{ item.name }}">
+                        <input type="text" class="form-control" name="email" id="email" placeholder="Email Address"
+                               style="text-align: center" value="{{ item.email }}">
+                        <input type="text" class="form-control" name="phone" id="phone" placeholder="Phone Number"
+                               style="text-align: center" value="{{ item.phone }}">
+                        <input type="text" class="form-control" name="blood" id="blood" placeholder="Blood Type"
+                                   style="text-align: center" value="{{ item.blood }}">
                     </div>
                     <div class="col-md-auto">
                         <input type="submit" class="btn btn-primary" value="Update">

@@ -72,7 +72,10 @@ def update(id):
     item = PersonalData.query.get_or_404(id)
 
     if request.method == 'POST':
-        item.content = request.form['content']
+        item.name = request.form['name']
+        item.email = request.form['email']
+        item.phone = request.form['phone']
+        item.blood = request.form['blood']
 
         try:
             db.session.commit()
