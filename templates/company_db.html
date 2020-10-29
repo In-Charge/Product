@@ -29,7 +29,10 @@
                             <tr>
                                 <td>{{ item.id }}</td>
                                 <td>{{ item.individual_id }}</td>
-                                <td>{{ item.content }}</td>
+                                <td>{{ item.name }}</td>
+                                <td>{{ item.email }}</td>
+                                <td>{{ item.phone }}</td>
+                                <td>{{ item.blood }}</td>
                                 <td>{{ item.date_fetched.strftime('%Y-%m-%d %H:%M:%S') }}</td>
                             </tr>
                         {% endfor %}

@@ -15,7 +15,10 @@
                         <thead>
                         <tr>
                             <th scope="col">Id</th>
-                            <th scope="col">Content</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Phone number</th>
+                            <th scope="col">Blood type</th>
                             <th scope="col">Time added</th>
                             <th scope="col">Access token*</th>
                             <th scope="col">Actions</th>
@@ -25,7 +28,10 @@
                         {% for item in items %}
                             <tr>
                                 <td>{{ item.id }}</td>
-                                <td>{{ item.content }}</td>
+                                <td>{{ item.name }}</td>
+                                <td>{{ item.email }}</td>
+                                <td>{{ item.phone }}</td>
+                                <td>{{ item.blood }}</td>
                                 <td>{{ item.date_created.strftime('%Y-%m-%d %H:%M:%S') }}</td>
                                 <td>{{ item.access_token }}</td>
                                 <td>
@@ -46,9 +52,12 @@
             <div class="form-group" style="width: 50%; margin: auto; align-content: center; text-align: center">
                 <div class="row justify-content-center">
                     <div class="col-md-auto">
-                        <input type="text" class="form-control" name="content" id="content">
-                    </div>
-                    <div class="col-md-auto">
+                        asdas
+                        <input type="text" class="form-control" name="name" id="name">
+                        <input type="text" class="form-control" name="email" id="email">
+                        <input type="text" class="form-control" name="phone" id="phone">
+                        <input type="text" class="form-control" name="blood" id="blood">
+                        <br>
                         <input type="submit" class="btn btn-primary" value="Add Entry">
                     </div>
                 </div>

@@ -13,7 +13,10 @@ db = SQLAlchemy(app)
 
 class PersonalData(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    content = db.Column(db.String(200), nullable=False)
+    name = db.Column(db.String(200), nullable=False)
+    email = db.Column(db.String(200), nullable=False)
+    phone = db.Column(db.String(20), nullable=False)
+    blood = db.Column(db.String(20), nullable=False)
     date_created = db.Column(db.DateTime, default=datetime.utcnow)
     access_token = db.Column(db.String(200), nullable=False)
 
@@ -25,7 +28,10 @@ class FetchedData(db.Model):
     __bind_key__ = 'company'
     id = db.Column(db.Integer, primary_key=True)
     individual_id = db.Column(db.Integer, nullable=False)
-    content = db.Column(db.String(200), nullable=False)
+    name = db.Column(db.String(200), nullable=False)
+    email = db.Column(db.String(200), nullable=False)
+    phone = db.Column(db.String(20), nullable=False)
+    blood = db.Column(db.String(20), nullable=False)
     date_fetched = db.Column(db.DateTime, default=datetime.utcnow)
 
     def __repr__(self):
@@ -35,8 +41,11 @@ class FetchedData(db.Model):
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
-        content = request.form['content']
-        new_item = PersonalData(content=content, access_token=token_hex(16))
+        name = request.form['name']
+        email = request.form['email']
+        phone = request.form['phone']
+        blood = request.form['blood']
+        new_item = PersonalData(name=name, email=email, phone=phone, blood=blood, access_token=token_hex(16))
 
         db.session.add(new_item)
         db.session.commit()
@@ -93,8 +102,11 @@ def fetch():
         if wrong:
             return render_template('fetch.html', wrong=True)
         else:
-            content = result.content
-            new_item = FetchedData(individual_id=id, content=content)
+            name = result.name
+            email = result.email
+            phone = result.phone
+            blood = result.blood
+            new_item = FetchedData(individual_id=id, name=name, email=email, phone=phone, blood=blood)
             db.session.add(new_item)
             db.session.commit()
             return render_template('fetch.html', wrong=False)
