@@ -91,6 +91,21 @@ def delete(id):
         return 'There was a problem deleting the entry'
 
 
+@app.route('/stop/<int:id>', methods=['GET', 'POST'])
+def stop(id):
+    item_ind = PersonalData.query.get_or_404(id)
+    item_comp = FetchedData.query.filter_by(individual_id=item_ind.id).first()
+    exists = item_comp is not None
+
+    try:
+        if exists:
+            db.session.delete(item_comp)
+            db.session.commit()
+        return redirect('/')
+    except:
+        return 'There was a problem stopping access'
+
+
 @app.route('/update/<int:id>', methods=['GET', 'POST'])
 def update(id):
     item = PersonalData.query.get_or_404(id)
@@ -100,7 +115,6 @@ def update(id):
         item.email = request.form['email']
         item.phone = request.form['phone']
         item.blood = request.form['blood']
-        item.access_token = token_hex(16)
 
         try:
             db.session.commit()
@@ -127,9 +141,13 @@ def fetch():
         result = query.first()
         wrong = result is None
 
+        item_comp = FetchedData.query.filter_by(individual_id=id).first()
+
         if wrong:
             return render_template('fetch.html', wrong=True)
         else:
+            if item_comp is not None:
+                db.session.delete(item_comp)
             name = result.name
             email = result.email
             phone = result.phone
