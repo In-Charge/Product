@@ -110,6 +110,8 @@ def stop(id):
 def update(id):
     item = PersonalData.query.get_or_404(id)
 
+    item_comp = FetchedData.query.filter_by(individual_id=id).first()
+
     if request.method == 'POST':
         item.name = request.form['name']
         item.email = request.form['email']
@@ -117,6 +119,14 @@ def update(id):
         item.blood = request.form['blood']
 
         try:
+            if item_comp is not None:
+                db.session.delete(item_comp)
+                name = item.name
+                email = item.email
+                phone = item.phone
+                blood = item.blood
+                new_item = FetchedData(individual_id=id, name=name, email=email, phone=phone, blood=blood)
+                db.session.add(new_item)
             db.session.commit()
             return redirect('/')
         except:
@@ -155,7 +165,7 @@ def fetch():
             new_item = FetchedData(individual_id=id, name=name, email=email, phone=phone, blood=blood)
             db.session.add(new_item)
             db.session.commit()
-            return render_template('fetch.html', wrong=False)
+            return render_template('company_db.html', items=FetchedData.query.order_by(FetchedData.date_fetched).all())
     else:
         return render_template('fetch.html', wrong=False)
 
